@@ -1,488 +1,363 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <title>Bezugskalkulation</title>
+  <meta charset="UTF-8">
+  <title>Organigramm Maier GmbH</title>
   <!-- Bootstrap 5 CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
-  <!-- Bootstrap Icons (für Symbol im Titel) -->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-  >
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
   <style>
-    body {
-      margin-top: 20px;
+    body { background: #f6f7fb; }
+    .org-level1 { background: #3563a9; color: #fff; }
+    .org-level2 { background: #5bc0be; color: #fff; }
+    .org-level3 { background: #f9f871; color: #222; }
+    .org-box {
+      border-radius: 16px;
+      box-shadow: 0 3px 15px #0001;
+      padding: 18px 16px;
+      margin: 10px 4px;
+      min-width: 240px;
+      position: relative;
     }
-    .input-red {
-      border: 2px solid red !important;
+    .org-icon {
+      font-size: 2.1rem;
+      vertical-align: middle;
+      margin-right: 9px;
     }
-    .output-green {
-      border: 2px solid green !important;
-      background-color: #e6ffe6; /* leichte Grünfärbung */
+    .org-line {
+      border-left: 3px solid #d0d6e2;
+      height: 22px;
+      margin: 0 auto;
     }
-    table.table thead th {
-      background-color: #f0f0f0;
-      font-weight: 600;
+    .org-branch { display: flex; flex-direction: column; align-items: center; }
+    .org-staff-list { list-style: none; padding: 0; margin: 0; }
+    .org-staff-list li {
+      background: #fff;
+      margin: 3px 0;
+      border-radius: 9px;
+      box-shadow: 0 1px 4px #ccc3;
+      padding: 7px 13px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
-    .abk {
+    @media (max-width: 1100px) {
+      .org-row { flex-direction: column !important; align-items: center !important; }
+      .org-branch { margin-bottom: 25px; }
+    }
+    .fancy-section {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 3px 15px #0001;
+      padding: 32px 20px 24px 20px;
+      margin-bottom: 32px;
+    }
+    .fancy-title {
+      font-size: 1.7rem;
       font-weight: bold;
+      background: linear-gradient(90deg, #5bc0be 40%, #3563a9 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      letter-spacing: 1px;
     }
+    .table thead { background: #3563a9; color: #fff; }
+    .table tbody tr td { vertical-align: top; }
+    .custom-bullets li::marker { color: #3563a9; font-size: 1.1em;}
+    .custom-bullets { margin-bottom: 0;}
   </style>
 </head>
 <body>
-<div class="container">
-  <!-- Titel -->
-  <h1 class="mb-4">
-    <i class="bi bi-cart-check-fill text-primary"></i>
-    Bezugskalkulation
-  </h1>
 
-  <p class="text-muted">
-    Beispielhafte Kalkulation: Listenpreis → Rabatt → (optionale) Provision → Skonto → Bareinkaufspreis (in Fremdwährung) → Umrechnung in EUR → Fracht → Zollsatz → Bezugspreis gesamt.
-  </p>
-
-  <!-- (A) Mapping Währung->EUR -->
-  <script>
-    const currencyToEurMap = {
-      'EUR': 1.0,
-      'USD': 0.92,
-      'GBP': 1.13,
-      'CHF': 1.01,
-      'AUD': 0.63,
-      'CAD': 0.68,
-      'JPY': 0.0064,
-      'CNY': 0.13,
-      'TRY': 0.035,
-      'RUB': 0.012,
-      'KZT': 1/541.139,
-      'NOK': 1/11.7608,
-      'SEK': 0.085,
-      'DKK': 0.134,
-      'PLN': 0.21
-    };
-  </script>
-
-  <!-- Card 1: Tara + Gewicht + Gramm => Dosen -->
-  <div class="card mb-3">
-    <div class="card-header bg-light fw-bold">
-      Masse & Dosen-Berechnung
+  <div class="container py-5">
+    <!-- ВОПРОСЫ & ОТВЕТЫ -->
+    <div class="fancy-section">
+      <div class="fancy-title"><i class="bi bi-question-circle"></i> Kurze Antworten auf Arbeitsfragen</div>
+      <div class="mb-3">
+        <b>1. Unterscheiden Sie Einliniensystem und Mehrliniensystem. Welche Vor- bzw. Nachteile sprechen für oder gegen das jeweilige System?</b>
+        <ul>
+          <li><b>Einliniensystem:</b> Jeder Mitarbeiter hat genau einen direkten Vorgesetzten.<br>
+            <b>Vorteile:</b> Klare Zuständigkeiten, eindeutige Dienstwege, übersichtliche Struktur.<br>
+            <b>Nachteile:</b> Lange Informations- und Entscheidungswege, Gefahr der Überlastung der Führung, geringe Flexibilität.
+          </li>
+          <li class="mt-2"><b>Mehrliniensystem:</b> Mitarbeiter erhalten Anweisungen von mehreren Vorgesetzten (z. B. nach Fachgebiet).<br>
+            <b>Vorteile:</b> Fachwissen der Vorgesetzten wird besser genutzt, kürzere Informationswege, höhere Flexibilität.<br>
+            <b>Nachteile:</b> Gefahr von widersprüchlichen Anweisungen, unklare Verantwortlichkeiten, Konfliktpotenzial.
+          </li>
+        </ul>
+      </div>
+      <div>
+        <b>2. Erläutern Sie den Begriff Stablinienorganisation. Welche Abteilungen sind als Stäbe besonders geeignet? Begründen Sie Ihre Antwort.</b>
+        <ul>
+          <li>
+            <b>Stablinienorganisation:</b> Das ist eine Erweiterung des Einliniensystems. Hier unterstützen sogenannte Stabsstellen (z. B. Rechtsabteilung, Personal, IT, Controlling) die Linieninstanzen beratend, haben aber keine Weisungsbefugnis gegenüber den operativen Mitarbeitern.
+          </li>
+          <li>
+            <b>Besonders geeignet als Stäbe:</b> Abteilungen, die Spezialwissen bereitstellen, z. B. Personalabteilung, Rechtsabteilung, Controlling, IT oder Organisation.<br>
+            <b>Begründung:</b> Diese Bereiche unterstützen die Führungskräfte bei Entscheidungen durch Fachwissen und Analysen, greifen aber nicht direkt in die tägliche Führung der Mitarbeiter ein.
+          </li>
+        </ul>
+      </div>
     </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label class="form-label">Gesamtmenge (kg)</label>
-          <input type="number" step="0.01" id="inpKg" class="form-control input-red"
-                 placeholder="z.B. 120" oninput="calcAll()" />
-        </div>
-        <!-- Checkbox für Tara-Aktivierung -->
-        <div class="col-md-3">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" id="chkTara" onchange="toggleTara()" />
-            <label class="form-check-label" for="chkTara">
-              Tara/Leckage aktivieren?
-            </label>
+
+    <!-- 1. Stärken- und Schwächenanalyse -->
+    <div class="fancy-section">
+      <div class="fancy-title"><i class="bi bi-bar-chart-line"></i> Stärken- und Schwächenanalyse (Arbeitsblatt 11.1) — Autoland GmbH</div>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Mitarbeiter (Position)</th>
+              <th style="width:40%">Stärken</th>
+              <th style="width:40%">Schwächen</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Herr Murschall<br><small>(Geschäftsführer)</small></td>
+              <td>
+                Große Erfahrung,<br>
+                Verhandlungsgeschick,<br>
+                „väterlich“ zu Mitarbeitern
+              </td>
+              <td>
+                Zentralisiert Entscheidungen,<br>
+                delegiert wenig,<br>
+                Gefahr der Überlastung
+              </td>
+            </tr>
+            <tr>
+              <td>Herr Nolte<br><small>(Berater/komm. Geschäftsführer)</small></td>
+              <td>
+                Betriebswirtschaftliches Wissen,<br>
+                bringt neue Ideen ein
+              </td>
+              <td>
+                (Noch) wenig akzeptiert im Team („Schwiegersohn“),<br>
+                Konflikte mit erfahrenen Mitarbeitern
+              </td>
+            </tr>
+            <tr>
+              <td>Frau Rotter<br><small>(Leitung Verwaltung)</small></td>
+              <td>
+                Sehr erfahren,<br>
+                zuverlässig,<br>
+                entlastet Chef,<br>
+                Allrounderin
+              </td>
+              <td>
+                Weniger fit im Personalwesen,<br>
+                droht überlastet zu werden (viele Aufgaben),<br>
+                Konflikte möglich
+              </td>
+            </tr>
+            <tr>
+              <td>Frau Gentsch<br><small>(Verwaltung)</small></td>
+              <td>
+                Fachlich stark in Personalfragen,<br>
+                junge Mitarbeiterin mit guter Ausbildung
+              </td>
+              <td>
+                Weniger erfahren,<br>
+                evtl. unsicher gegenüber Älteren
+              </td>
+            </tr>
+            <tr>
+              <td>Herr Özkaya<br><small>(Leitung Lager)</small></td>
+              <td>
+                Lager fest im Griff,<br>
+                organisiert,<br>
+                sieht Engpässe frühzeitig
+              </td>
+              <td>
+                Kommunikationsprobleme mit Verkauf,<br>
+                Lager teils überfüllt,<br>
+                Zielzahlen werden verfehlt
+              </td>
+            </tr>
+            <tr>
+              <td>Herr Schmitz<br><small>(Leitung Teileverkauf Großkunden)</small></td>
+              <td>
+                Durchsetzungsfähig,<br>
+                nimmt Weisungsrecht wahr,<br>
+                versucht Kunden zufrieden zu stellen
+              </td>
+              <td>
+                Interessiert sich wenig für Folgen im Lager,<br>
+                fördert Konflikte,<br>
+                nicht teamorientiert
+              </td>
+            </tr>
+            <tr>
+              <td>Herr Pietsch<br><small>(Leitung Teileverkauf Privatkunden)</small></td>
+              <td>
+                Verantwortlich,<br>
+                organisiert Aktionen
+              </td>
+              <td>
+                Aktionen führen zu Engpässen,<br>
+                wenig Abstimmung mit Lager und Großkundenverkauf
+              </td>
+            </tr>
+            <tr>
+              <td>Herr Fleck / Frau Pagel<br><small>(Ersatzteil/Zubehörverkauf)</small></td>
+              <td>
+                Eng abgestimmt,<br>
+                hohe Selbstständigkeit
+              </td>
+              <td>
+                Abgang von Frau Pagel gefährdet Kontinuität,<br>
+                eventuelle Arbeitsüberlastung für Herr Fleck
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. Analyse des Leitungssystems -->
+    <div class="fancy-section">
+      <div class="fancy-title"><i class="bi bi-diagram-3"></i> Analyse des Leitungssystems (Arbeitsblatt 11.2)</div>
+      <h5 class="mb-2">Derzeitiges System:</h5>
+      <ul class="custom-bullets mb-3">
+        <li>Die Autoland GmbH ist als <b>klassisches Einliniensystem</b> organisiert.</li>
+        <li>Jeder Mitarbeiter hat genau einen direkten Vorgesetzten.</li>
+        <li>Die Abteilungsleiter berichten an die Geschäftsführung.</li>
+        <li>Entscheidungen laufen (zu) oft direkt über den Geschäftsführer.</li>
+      </ul>
+      <h5 class="mb-2">Vorteile:</h5>
+      <ul class="custom-bullets mb-3">
+        <li>Klare Zuständigkeiten, einfacher Dienstweg, jeder kennt seinen Ansprechpartner.</li>
+        <li>Übersichtliche Struktur.</li>
+      </ul>
+      <h5 class="mb-2">Nachteile:</h5>
+      <ul class="custom-bullets mb-3">
+        <li>Überlastung der Führung, weil alles zentral über den Chef geht.</li>
+        <li>Kaum bereichsübergreifende Abstimmung; Kommunikationsprobleme zwischen Abteilungen entstehen schnell und werden über den Chef gelöst.</li>
+        <li>Innovationspotenzial der jüngeren/nicht etablierten Mitarbeiter wird wenig genutzt.</li>
+      </ul>
+      <h5 class="mb-2">Empfehlung:</h5>
+      <ul class="custom-bullets mb-0">
+        <li>Umstellung auf ein <b>Stabliniensystem</b>:</li>
+        <ul>
+          <li>Weiterhin klare Hierarchie, aber mit unterstützenden/beratenden Stabsstellen.</li>
+          <li>Entlastung der Geschäftsführung und Förderung bereichsübergreifender Kommunikation (z.B. durch Stabsstelle „Organisation/Personal“).</li>
+          <li>Regelmäßige Abteilungsleiter-Meetings oder eine Koordinationsstelle könnten helfen, Informationsaustausch und Zusammenarbeit zu verbessern.</li>
+        </ul>
+      </ul>
+    </div>
+
+    <!-- Органиграмма (оставляем без изменений) -->
+    <h2 class="mb-4 text-center"><i class="bi bi-diagram-3"></i> Organigramm Maier GmbH</h2>
+    <div class="d-flex flex-column align-items-center">
+      <!-- Geschäftsführung -->
+      <div class="org-box org-level1 mb-2">
+        <i class="bi bi-person-badge org-icon"></i>
+        <b>Geschäftsführung</b><br>
+        Michael Stellter & Bernd Krause<br>
+        <small>Sekretariat: Frau Müller</small>
+      </div>
+      <div class="org-line"></div>
+      <!-- Abteilungen -->
+      <div class="d-flex org-row justify-content-center flex-wrap">
+        <!-- Einkauf -->
+        <div class="org-branch mx-2">
+          <div class="org-box org-level2">
+            <i class="bi bi-basket org-icon"></i>
+            <b>Einkauf</b><br>
+            Leitung: Frau Seiters
           </div>
-          <label class="form-label">Tara/Leckage (%)</label>
-          <input type="number" step="0.1" id="inpTara" class="form-control input-red"
-                 placeholder="0 oder 4" disabled oninput="calcAll()" />
-          <div class="form-text">Anteil, der abgezogen wird</div>
+          <div class="org-line"></div>
+          <ul class="org-staff-list">
+            <li><i class="bi bi-person"></i>Sachbearbeiter: Herr Willer<br>
+              <small>Kopier-/Feinpapiere</small>
+            </li>
+            <li><i class="bi bi-person"></i>Sachbearbeiterin: Frau Kreiser<br>
+              <small>Druckpapiere/Folien</small>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Gramm je Dose</label>
-          <input type="number" step="0.1" id="inpGramDose" class="form-control input-red"
-                 placeholder="z.B. 100" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Benötigte Dosen</label>
-          <input type="text" id="outDosen" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 2: Listenpreis, Rabatt, => LEP, ZEP -->
-  <div class="card mb-3">
-    <div class="card-header bg-light fw-bold">
-      Listenpreis & Rabatt
-    </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label class="form-label">Listenpreis/Dose (lokal)</label>
-          <input type="number" step="0.01" id="inpPriceLocal" class="form-control input-red"
-                 placeholder="z.B. 54950" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Währung</label>
-          <select id="selCurrency" class="form-select input-red" oninput="calcAll()">
-            <option value="">(Währung wählen)</option>
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="GBP">GBP</option>
-            <option value="CHF">CHF</option>
-            <option value="AUD">AUD</option>
-            <option value="CAD">CAD</option>
-            <option value="JPY">JPY</option>
-            <option value="CNY">CNY</option>
-            <option value="TRY">TRY</option>
-            <option value="RUB">RUB</option>
-            <option value="KZT">KZT</option>
-            <option value="NOK">NOK</option>
-            <option value="SEK">SEK</option>
-            <option value="DKK">DKK</option>
-            <option value="PLN">PLN</option>
-          </select>
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Rabatt (%)</label>
-          <input type="number" step="0.1" id="inpRabatt" class="form-control input-red"
-                 placeholder="z.B. 15" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">LEP gesamt (lok. Währung)</label>
-          <input type="text" id="outLEPGes" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 3: Provision (Checkbox), Skonto => BAP(lokal), Umrechnung in EUR -->
-  <div class="card mb-3">
-    <div class="card-header bg-light fw-bold">
-      Provision & Skonto
-    </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <!-- Provision aktivieren? -->
-        <div class="col-md-3">
-          <div class="form-check mb-2">
-            <input class="form-check-input" type="checkbox" id="chkProv" onchange="toggleProv()" />
-            <label class="form-check-label" for="chkProv">
-              Provision aktivieren?
-            </label>
+        <!-- Verkauf -->
+        <div class="org-branch mx-2">
+          <div class="org-box org-level2">
+            <i class="bi bi-people org-icon"></i>
+            <b>Verkauf</b><br>
+            Leitung: Herr Schlichtig
           </div>
-          <label class="form-label">Provision (% v. ZEP)</label>
-          <input type="number" step="0.1" id="inpProvision" class="form-control input-red"
-                 placeholder="z.B. 3" disabled oninput="calcAll()" />
+          <div class="org-line"></div>
+          <ul class="org-staff-list">
+            <li><i class="bi bi-person"></i>Sachbearbeiterin: Frau Kränzel<br>
+              <small>Region Nord</small>
+            </li>
+            <li><i class="bi bi-person"></i>Sachbearbeiterin: Frau Lichert<br>
+              <small>Region West</small>
+            </li>
+            <li><i class="bi bi-person"></i>Sachbearbeiter: Herr Kraus<br>
+              <small>Region Ost</small>
+            </li>
+            <li><i class="bi bi-person"></i>Sachbearbeiter: Herr Krabbe<br>
+              <small>Region Süd</small>
+            </li>
+            <li><i class="bi bi-person-walking"></i>Reisender: Herr Schreier<br>
+              <small>Bezirke Nord/West</small>
+            </li>
+            <li><i class="bi bi-person-walking"></i>Reisender: Herr Käufers<br>
+              <small>Bezirke Ost/Süd</small>
+            </li>
+          </ul>
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Skonto (%)</label>
-          <input type="number" step="0.1" id="inpSkonto" class="form-control input-red"
-                 placeholder="z.B. 2" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">BAP (lok. Währung)</label>
-          <input type="text" id="outBAPLocal" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">BAP (EUR)</label>
-          <input type="text" id="outBAPEur" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 4: Frachtkosten -->
-  <div class="card mb-3">
-    <div class="card-header bg-light fw-bold">
-      Frachtkosten
-    </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label class="form-label">Fracht 1 (€/Dose)</label>
-          <input type="number" step="0.01" id="inpFracht1" class="form-control input-red"
-                 placeholder="z.B. 0.52" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Fracht 2 (€/Dose)</label>
-          <input type="number" step="0.01" id="inpFracht2" class="form-control input-red"
-                 placeholder="z.B. 0.15" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Fracht 3 (€/Dose)</label>
-          <input type="number" step="0.01" id="inpFracht3" class="form-control input-red"
-                 placeholder="z.B. 0.06" oninput="calcAll()" />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Gesamtfracht (EUR)</label>
-          <input type="text" id="outFracht" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Card 5: Zoll & Bezugspreis -->
-  <div class="card mb-3">
-    <div class="card-header bg-light fw-bold">
-      Zoll & Bezugspreis
-    </div>
-    <div class="card-body">
-      <div class="row g-3">
-        <div class="col-md-3">
-          <label class="form-label">Zollbasis (EUR)</label>
-          <input type="text" id="outZollbasis" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
-        </div>
-        <div class="col-md-3">
-          <label class="form-label">Zollsatz (%)</label>
-          <input type="number" step="0.1" id="inpZollsatz" class="form-control input-red"
-                 placeholder="z.B. 25" oninput="calcAll()" />
-          <div class="form-text">
-            <a href="https://eservice.zoll.de/ezto/Welcome.do" target="_blank">
-              EZT-Online (Zolltarif)
-            </a>
+        <!-- Lager -->
+        <div class="org-branch mx-2">
+          <div class="org-box org-level2">
+            <i class="bi bi-truck org-icon"></i>
+            <b>Lager</b><br>
+            Leitung: Herr Jacobs
           </div>
+          <div class="org-line"></div>
+          <ul class="org-staff-list">
+            <li><i class="bi bi-person"></i>Lagerarbeiter: Herr Esser</li>
+            <li><i class="bi bi-person"></i>Lagerarbeiter: Herr Weidner</li>
+            <li><i class="bi bi-person"></i>Lagerarbeiter: Herr Schumacher</li>
+            <li><i class="bi bi-truck"></i>Kraftfahrer: Herr Meisner</li>
+            <li><i class="bi bi-truck"></i>Kraftfahrer: Herr Woller</li>
+            <li><i class="bi bi-truck"></i>Kraftfahrer: Herr Abel</li>
+          </ul>
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Zollbetrag (EUR)</label>
-          <input type="text" id="outZollbetrag" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
+        <!-- Rechnungswesen -->
+        <div class="org-branch mx-2">
+          <div class="org-box org-level2">
+            <i class="bi bi-calculator org-icon"></i>
+            <b>Rechnungswesen</b><br>
+            Leitung: Herr Krommes
+          </div>
+          <div class="org-line"></div>
+          <ul class="org-staff-list">
+            <li><i class="bi bi-person"></i>Finanzbuchhaltung/Jahresabschluss: Frau Maler</li>
+            <li><i class="bi bi-person"></i>Debitoren/Kreditoren/Mahnwesen: Frau Allers</li>
+            <li><i class="bi bi-person"></i>Kosten-/Leistungsrechnung: Herr Reiners</li>
+          </ul>
         </div>
-        <div class="col-md-3">
-          <label class="form-label">Bezugspreis gesamt (EUR)</label>
-          <input type="text" id="outBZPGes" class="form-control output-green"
-                 placeholder="Automatisch" readonly />
+        <!-- Verwaltung/Personal -->
+        <div class="org-branch mx-2">
+          <div class="org-box org-level2">
+            <i class="bi bi-person-vcard org-icon"></i>
+            <b>Allg. Verwaltung/Personal</b><br>
+            Leitung: Frau Miro
+          </div>
+          <div class="org-line"></div>
+          <ul class="org-staff-list">
+            <li><i class="bi bi-envelope-paper"></i>Poststelle: Frau Flechters</li>
+            <li><i class="bi bi-pc-display"></i>Datenverarbeitung: Herr Probst</li>
+            <li><i class="bi bi-person"></i>Lohn-/Gehaltsabrechnung: Frau Klose</li>
+            <li><i class="bi bi-person"></i>Personalverwaltung: Herr Richmann</li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- Abschließende Schematische Übersicht -->
-  <h3 class="mt-4">Schematische Übersicht</h3>
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Schritt</th>
-        <th>Formel / Kommentar</th>
-        <th>Aktueller Wert</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><span class="abk">Netto-Menge</span> (kg) nach Tara</td>
-        <td>kg × (1 − Tara%)</td>
-        <td><span id="dynNettoMenge">–</span></td>
-      </tr>
-      <tr>
-        <td>Anzahl Dosen</td>
-        <td>(Netto kg × 1000) / Gramm je Dose</td>
-        <td><span id="dynDosen">–</span></td>
-      </tr>
-      <tr>
-        <td><span class="abk">LEP</span> gesamt (lok. Währung)</td>
-        <td>(Dose × Listenpreis pro Dose)</td>
-        <td><span id="dynLEPGes">–</span></td>
-      </tr>
-      <tr>
-        <td><span class="abk">ZEP</span> (nach Rabatt)</td>
-        <td>LEP_ges × (1 − Rabatt%)</td>
-        <td><span id="dynZEP">–</span></td>
-      </tr>
-      <tr>
-        <td>+ Provision</td>
-        <td>ZEP + (ZEP × Prov%)</td>
-        <td><span id="dynZEPProv">–</span></td>
-      </tr>
-      <tr>
-        <td>− Skonto => <span class="abk">BAP</span> (lokal)</td>
-        <td>(ZEP+Prov) × (1 − Skonto%)</td>
-        <td><span id="dynBAPLocal">–</span></td>
-      </tr>
-      <tr>
-        <td>Umrechnung in EUR</td>
-        <td>BAP (lokal) / Wechselkurs</td>
-        <td><span id="dynBAPEur">–</span></td>
-      </tr>
-      <tr>
-        <td>Fracht gesamt (EUR)</td>
-        <td>(F1 + F2 + F3) × Dosen</td>
-        <td><span id="dynFracht">–</span></td>
-      </tr>
-      <tr>
-        <td><span class="abk">Zollbasis</span></td>
-        <td>BAP(EUR) + ggf. Seefracht usw.</td>
-        <td><span id="dynZollbasis">–</span></td>
-      </tr>
-      <tr>
-        <td>Zollbetrag</td>
-        <td>Zollbasis × Zollsatz</td>
-        <td><span id="dynZollbetrag">–</span></td>
-      </tr>
-      <tr>
-        <td><span class="abk">Bezugspreis</span> (gesamt)</td>
-        <td>BAP(EUR) + Fracht + Zoll</td>
-        <td><span id="dynBZP">–</span></td>
-      </tr>
-      <tr>
-        <td>Preis pro Dose</td>
-        <td>(Bezugspreis ges.) / Dosen</td>
-        <td><span id="dynPreisDose">–</span></td>
-      </tr>
-      <tr>
-        <td>Preis pro kg</td>
-        <td>(Bezugspreis ges.) / Netto kg</td>
-        <td><span id="dynPreisKg">–</span></td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<!-- Bootstrap 5 JS + Popper.js -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-  function round2(num) {
-    return Math.round(num * 100) / 100;
-  }
-
-  // Checkboxes, um Felder zu aktivieren/deaktivieren
-  function toggleTara() {
-    const chk = document.getElementById('chkTara');
-    const inp = document.getElementById('inpTara');
-    inp.disabled = !chk.checked;
-    // Falls abgewählt => Wert leeren
-    if (!chk.checked) {
-      inp.value = "";
-    }
-    calcAll();
-  }
-  function toggleProv() {
-    const chk = document.getElementById('chkProv');
-    const inp = document.getElementById('inpProvision');
-    inp.disabled = !chk.checked;
-    if (!chk.checked) {
-      inp.value = "";
-    }
-    calcAll();
-  }
-
-  function calcAll() {
-    // 1) Netto-Menge (kg) nach Tara
-    const kgVal = parseFloat(document.getElementById('inpKg').value) || 0;
-    const taraActive = document.getElementById('chkTara').checked;
-    let taraPct = 0;
-    if (taraActive) {
-      taraPct = parseFloat(document.getElementById('inpTara').value) || 0;
-    }
-    let nettoKg = kgVal * (1 - taraPct / 100);
-    document.getElementById('dynNettoMenge').textContent =
-      (nettoKg > 0 ? round2(nettoKg) : "–");
-
-    // 2) Anzahl Dosen
-    const gramDose = parseFloat(document.getElementById('inpGramDose').value) || 0;
-    let doseCount = 0;
-    if (gramDose > 0 && nettoKg > 0) {
-      doseCount = (nettoKg * 1000) / gramDose;
-    }
-    document.getElementById('outDosen').value =
-      (doseCount>0 ? round2(doseCount) : "");
-    document.getElementById('dynDosen').textContent =
-      (doseCount>0 ? round2(doseCount) : "–");
-
-    // 3) LEP gesamt (lok.Währung)
-    const priceLocal = parseFloat(document.getElementById('inpPriceLocal').value) || 0;
-    let lepGesLocal = priceLocal * doseCount;
-    document.getElementById('outLEPGes').value =
-      (lepGesLocal>0 ? round2(lepGesLocal) : "");
-    document.getElementById('dynLEPGes').textContent =
-      (lepGesLocal>0 ? round2(lepGesLocal) : "–");
-
-    // Rabatt
-    const rabattPct = parseFloat(document.getElementById('inpRabatt').value) || 0;
-    let zepLocal = lepGesLocal * (1 - rabattPct / 100);
-
-    // Provision?
-    const provActive = document.getElementById('chkProv').checked;
-    let provPct = 0;
-    if (provActive) {
-      provPct = parseFloat(document.getElementById('inpProvision').value) || 0;
-    }
-    let zepMitProv = zepLocal + (zepLocal * (provPct / 100));
-
-    // Skonto
-    const skontoPct = parseFloat(document.getElementById('inpSkonto').value) || 0;
-    let bapLocal = zepMitProv * (1 - skontoPct / 100);
-
-    // Ausgabe in dyn. Feldern
-    document.getElementById('dynZEP').textContent =
-      (zepLocal>0 ? round2(zepLocal) : "–");
-    document.getElementById('dynZEPProv').textContent =
-      (zepMitProv>0 ? round2(zepMitProv) : "–");
-    document.getElementById('dynBAPLocal').textContent =
-      (bapLocal>0 ? round2(bapLocal) : "–");
-    document.getElementById('outBAPLocal').value =
-      (bapLocal>0 ? round2(bapLocal) : "");
-
-    // 4) Umrechnung in EUR
-    const selCurr = document.getElementById('selCurrency').value || "";
-    let rate = currencyToEurMap[selCurr] || 0;
-    let bapEur = 0;
-    if (rate > 0) {
-      bapEur = bapLocal * rate;
-    }
-    document.getElementById('outBAPEur').value =
-      (bapEur>0 ? round2(bapEur) : "");
-    document.getElementById('dynBAPEur').textContent =
-      (bapEur>0 ? round2(bapEur) : "–");
-
-    // 5) Fracht
-    const f1 = parseFloat(document.getElementById('inpFracht1').value) || 0;
-    const f2 = parseFloat(document.getElementById('inpFracht2').value) || 0;
-    const f3 = parseFloat(document.getElementById('inpFracht3').value) || 0;
-    let frachtProDose = f1 + f2 + f3;
-    let frachtGes = frachtProDose * doseCount;
-    document.getElementById('outFracht').value =
-      (frachtGes>0 ? round2(frachtGes) : "");
-    document.getElementById('dynFracht').textContent =
-      (frachtGes>0 ? round2(frachtGes) : "–");
-
-    // 6) Zoll
-    // Zollbasis = BAP(EUR) + evtl. Seefracht (vereinfacht hier BAP(EUR))
-    let zollbasis = bapEur;
-    document.getElementById('outZollbasis').value =
-      (zollbasis>0 ? round2(zollbasis) : "");
-    document.getElementById('dynZollbasis').textContent =
-      (zollbasis>0 ? round2(zollbasis) : "–");
-
-    const zollPct = parseFloat(document.getElementById('inpZollsatz').value) || 0;
-    let zollbetrag = zollbasis * (zollPct / 100);
-    document.getElementById('outZollbetrag').value =
-      (zollbetrag>0 ? round2(zollbetrag) : "");
-    document.getElementById('dynZollbetrag').textContent =
-      (zollbetrag>0 ? round2(zollbetrag) : "–");
-
-    // 7) Bezugspreis gesamt
-    let bzpGes = bapEur + frachtGes + zollbetrag;
-    document.getElementById('outBZPGes').value =
-      (bzpGes>0 ? round2(bzpGes) : "");
-    document.getElementById('dynBZP').textContent =
-      (bzpGes>0 ? round2(bzpGes) : "–");
-
-    // 8) Preis pro Dose & Preis pro kg
-    let preisDose = 0;
-    if (doseCount>0 && bzpGes>0) {
-      preisDose = bzpGes / doseCount;
-    }
-    let preisKg = 0;
-    if (nettoKg>0 && bzpGes>0) {
-      preisKg = bzpGes / nettoKg;
-    }
-    document.getElementById('dynPreisDose').textContent =
-      (preisDose>0 ? round2(preisDose) : "–");
-    document.getElementById('dynPreisKg').textContent =
-      (preisKg>0 ? round2(preisKg) : "–");
-  }
-</script>
-
+  <!-- Bootstrap 5 JS Bundle (optional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
